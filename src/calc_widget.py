@@ -1,11 +1,16 @@
 
+import os
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QIcon, QColor
 from PySide6.QtWidgets import QWidget, QPushButton, QButtonGroup, QGridLayout, QLineEdit, QVBoxLayout, QHBoxLayout
 from calc_logic import CalcLogic
 
-# Defines a widget to contain buttons 0-9 and function keys
+
 class NumPad(QWidget):
+    """
+    A QWidget that represents the numeric keypad 
+    and basic functions of the calculator.
+    """
     def __init__(self):
         super().__init__()
 
@@ -68,8 +73,9 @@ class NumPad(QWidget):
 
         self.setLayout(layout)
 
-# Define a widget for the operation buttons
+
 class OperationButtons(QWidget):
+    """ A QWidget that represents the operation buttons of the calculator."""
     def __init__(self):
         super().__init__()
         # Define button group to manage signals for operation buttons
@@ -101,8 +107,9 @@ class OperationButtons(QWidget):
         
         self.setLayout(layout)
 
-# Define a widget to create the calc display
+
 class DisplayOutput(QWidget):
+    """A QWidget that represents the display output of the calculator."""
     def __init__(self):
         super().__init__()
         # Define a text box to display values
@@ -120,11 +127,16 @@ class DisplayOutput(QWidget):
 
 # Define a parent widget to manage child widgets
 class CalcUI(QWidget):
+    """
+    A QWidget that combines the display, numeric keypad, 
+    and operation buttons to create the calculator's user interface.
+    """
     def __init__(self):
         super().__init__()
 
         # Define icon for the window tilebar
-        icon = QIcon('src\static\icon.png')
+        icon_path = os.path.join('src', 'static', 'icon.png')
+        icon = QIcon(icon_path)
 
         # Define bool value to manage when to clear text from diplay
         self._operation_clicked = False
@@ -152,7 +164,13 @@ class CalcUI(QWidget):
         self.num_pad.function_group.buttonClicked.connect(self.run_function)
 
     # Ensure values properly display as int or float
-    def display_value(self, value: str):
+    def display_value(self, value: int | float):
+        """
+        Display the given value as an integer or float in the calculator's
+        display output.
+
+        :param value: The value to display, as an integer or float.
+        """
         # Convert the value to float
         float_value = float(value)
         
@@ -166,6 +184,11 @@ class CalcUI(QWidget):
 
     @Slot(QPushButton)
     def update_display(self, num):
+        """
+        Update the display output with the clicked number button's value.
+
+        :param num: The clicked number button.
+        """
         # If an oporator is selected clear the display before the 
         # value is inserted
         if self._operation_clicked:
@@ -177,32 +200,40 @@ class CalcUI(QWidget):
 
 
     @Slot(QPushButton)
-    def call_operation(self, operation):
+    def call_operation(self, operator):
+        """
+        Perform the selected operation on the current input values and update the display output.
 
+        :param operator: The clicked operator button.
+        """
         self._operation_clicked = True
         # Retrieve the currently displayed text
         text = self.display.display.text()
 
-        # Cast the text to float or int
-        if '.' in text:
-            value = float(text)
-        else:
-            value = int(text)
-
         # Send the value to calc logic
-        self.calculate.set_value(value)
+        self.calculate.set_value(text)
 
         # Send the clicked oportator to calc logic
         # returns none unless operator is '='
-        result = self.calculate.get_operation(operation.text())
+        result = self.calculate.get_operation(operator.text())
         # If result has value display result
-        if result:
-            # Display the result and reset operation_clicked
-            self.display_value(result)
-            self._operation_clicked = False
+        if result is not None:
+            # if divide by zero display Error
+            if hasattr(self.calculate, 'error_message'):
+                self.display.display.setText(self.calculate.error_message)
+                delattr(self.calculate, 'error_message')
+            else:
+                # Display the result and reset operation_clicked
+                self.display_value(result)
+                self._operation_clicked = False
 
     @Slot(QPushButton)
     def run_function(self, function):
+        """
+        Execute the selected function (AC, -/+, %) and update the display output.
+
+        :param function: The clicked function button.
+        """
         # Clear the display and update calc logic
         if function.text() == 'AC':
             self.calculate.reset_values()
