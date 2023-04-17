@@ -2,6 +2,13 @@
 class CalcLogic:
     def __init__(self):
 
+        self.operator_dict = {
+            '/': 'divide',
+            '*': 'multiply',
+            '-': 'subtract',
+            '+': 'add'
+        }
+
         self._stored_value = None
         self._current_value = 0
         self._operation = None
@@ -17,22 +24,14 @@ class CalcLogic:
         self._current_value = value
 
     # Execute the operation then store the selected operation
-    def get_operation(self, operation):
+    def get_operation(self, operator):
         self._execute_operation()
-        if operation == '/':
-            self._operation = 'divide'
 
-        if operation == '*':
-            self._operation = 'multiply'
-
-        if operation == '-':
-            self._operation = 'subtract'
-
-        if operation == '+':
-            self._operation = 'add'
+        if operator in self.operator_dict:
+            self._operation = self.operator_dict[operator]
 
         # if operation is '=', clear _operation and return answer
-        if operation == '=':
+        if operator == '=':
             self._operation = None
             return self._current_value
 
