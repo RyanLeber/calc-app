@@ -1,0 +1,61 @@
+QPushButton { 
+    min-height: 70px;
+    max-width: 70px;
+    border: none;
+    border-radius: 35px;
+    background-color: #424242;
+    color: #feffff;
+    font-size: 32px;
+}
+
+QPushButton::hover {
+    background-color: #9b9b9b;
+}
+
+QPushButton#top {
+    background-color: #6d6d6d;
+}
+
+QPushButton#top::hover {
+    background-color: #9b9b9b;
+}
+
+QPushButton#zero {
+    max-width: 155px;
+}
+
+QPushButton#op {
+    background-color: #2c8da8;
+}
+
+QPushButton#op::focus {
+    background-color: #feffff;
+    color:#2c8da8;
+}
+
+QPushButton#op::hover {
+    background-color: #feffff;
+    color:#2c8da8;
+}
+
+QPushButton#equal {
+    background-color: #2c8da8;
+}
+
+QPushButton#equal::hover {
+    background-color: #feffff;
+    color:#2c8da8;
+
+}
+
+QLineEdit {
+    color: #feffff;
+    background-color: #1b1b1b;
+    font-size: 64px;
+}
+
+CalcUI {
+    background-color: #1b1b1b;
+}
+
+
