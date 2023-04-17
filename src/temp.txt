@@ -1,0 +1,65 @@
+    # Stores the selected operation 
+    def get_operation(self, operation):
+        if operation == '/':
+            self._execute_operation()
+            self._operation = 'divide'
+
+        if operation == '*':
+            self._execute_operation()
+            self._operation = 'multiply'
+
+        if operation == '-':
+            self._execute_operation()
+            self._operation = 'subtract'
+
+        if operation == '+':
+            self._execute_operation()
+            self._operation = 'add'
+
+        if operation == '=':
+            self._execute_operation()
+            self._operation = None
+            return self._current_value
+
+
+    def add(self):
+        self._execute_operation()
+        self._operation = 'add'
+
+    def subtract(self):
+        self._execute_operation()
+        self._operation = 'subtract'
+
+    def multiply(self):
+        self._execute_operation()
+        self._operation = 'multiply'
+
+    def divide(self):
+        self._execute_operation()
+        self._operation = 'divide'
+
+    def equals(self):
+        self._execute_operation()
+        self._operation = None
+
+
+
+    def get_operation(self, operation):
+        self._execute_operation()
+        if operation == '/':
+            self._operation = 'divide'
+
+        if operation == '*':
+            self._operation = 'multiply'
+
+        if operation == '-':
+            self._operation = 'subtract'
+
+        if operation == '+':
+            self._operation = 'add'
+
+        # if operation is '=', clear _operation and return answer
+        if operation == '=':
+            self._operation = None
+            return self._current_value
+

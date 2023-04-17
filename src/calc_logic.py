@@ -6,7 +6,7 @@ class CalcLogic:
         self._current_value = 0
         self._operation = None
 
-    # 
+    # clear the calculator memory
     def reset_values(self):
         self._stored_value = None
         self._current_value = 0
@@ -16,42 +16,32 @@ class CalcLogic:
     def set_value(self, value):
         self._current_value = value
 
+    # Execute the operation then store the selected operation
     def get_operation(self, operation):
+        self._execute_operation()
         if operation == '/':
-            self.divide()
+            self._operation = 'divide'
+
         if operation == '*':
-            self.multiply()
+            self._operation = 'multiply'
+
         if operation == '-':
-            self.subtract()
+            self._operation = 'subtract'
+
         if operation == '+':
-            self.add()
+            self._operation = 'add'
+
+        # if operation is '=', clear _operation and return answer
         if operation == '=':
-            self.equals()
+            self._operation = None
             return self._current_value
 
-    def add(self):
-        self._execute_operation()
-        self._operation = 'add'
-
-    def subtract(self):
-        self._execute_operation()
-        self._operation = 'subtract'
-
-    def multiply(self):
-        self._execute_operation()
-        self._operation = 'multiply'
-
-    def divide(self):
-        self._execute_operation()
-        self._operation = 'divide'
-
-    def equals(self):
-        self._execute_operation()
-        self._operation = None
-
     def _execute_operation(self):
+        # If no operation selected or no value previously stored,
+        # store the value
         if not self._operation or not self._stored_value:
             self._stored_value = self._current_value
+        
         else:
             if self._operation == 'add':
                 self._stored_value += self._current_value
