@@ -5,12 +5,13 @@ from PySide6.QtCore import Qt
 
 # open styles.qss and read in file
 def load_stylesheet(file_path):
+    """Load the content of the stylesheet file at the given file path."""
     with open(file_path, 'r') as file:
         return file.read()
 
 def main():
     # load style sheet
-    stylesheet = load_stylesheet('src\static\styles.qss')
+    stylesheet = load_stylesheet('src/static/styles.qss')
 
     # define app as a QApp
     app = QtWidgets.QApplication([])
